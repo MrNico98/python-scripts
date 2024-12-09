@@ -1,0 +1,33 @@
+name: Esegui script Python
+
+# Definisce gli eventi che triggerano il workflow
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 * * * *'  # Esegui ogni ora
+
+# Definisce l'ambiente in cui eseguire il workflow
+jobs:
+  run-python-script:
+    runs-on: ubuntu-latest  # Ambiente di esecuzione (puoi anche usare windows o macos)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # Checkout del codice dal repository
+
+      - name: Impostare Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'  # Imposta la versione di Python
+
+      - name: Installare dipendenze
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Installa eventuali dipendenze dal file requirements.txt
+
+      - name: Eseguire lo script Python
+        run: |
+          python scripts/myscript.py  # Esegui il tuo script
+
